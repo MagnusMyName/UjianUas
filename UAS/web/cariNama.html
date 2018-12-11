@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>  
+        <title>UAS</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            .table-wrapper-scroll-y {
+                display: block;
+                max-height: 450px;                
+                overflow-y: auto;
+                -ms-overflow-style: -ms-autohiding-scrollbar;
+                width: 100%;
+                height: 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <div class ="form-group">
+            <label for="nama">Cari Pasien :</label><br>
+            <input type="text"  placeholder="Masukkan Nama" id="nama" required/>
+        </div>
+        <button type="button" onclick="loadDoc()" id="btn">Cari</button>
+
+
+        <script>
+            function loadDoc() {
+            var url = "http://206.189.38.188:8080/myrs/webresources/pasien/cariNamaPasien?nama=Bambang" + nama.value;
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+            loopingList(this.responseText);
+            }
+            }
+            }
+
+            function loopingList(response) {
+            var size = JSON.parse(response);
+            var i;
+            var out = "<table border='1' class='table-wrapper-scroll-y'><thead><tr><th>No Rekam Medis</th><th>Nama </th><th>Tanggal Lahir</th><th>Detail/th></tr></thead>";
+            for (i = 0; i < size.length; i++) {
+            out += "<tbody><tr><td>" + size[i].noRm +
+                    "</td><td>" + size[i].nama +
+                    "</td><td>" + size[i].tanggalLahir +
+              
+                    "</td></tr></tbody>";
+            }
+            out += "</table>";
+            document.getElementById("btn").innerHTML = out;
+            }
+            }
+            
+        </script>
+    </body>
+</html>
